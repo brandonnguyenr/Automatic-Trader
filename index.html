@@ -7,20 +7,37 @@
     <link rel="stylesheet" href="https://pyscript.net/latest/pyscript.css" />
     <script defer src="https://pyscript.net/latest/pyscript.js"></script>
 
-    <py-env>
-      -matplotlib
-      -datetime
-      -pandas
-      -numpy
-      -json
-    </py-env>
+    <py-config type="json">
+      {
+        "packages": ["numpy", "matplotlib", "pandas"]
+      }
+    </py-config>
+
 </head>
 <body>
 
-    <h1>test</h1>
+    <h1>Random numbers plotted example</h1>
 
-    <py-script src = "./main.py">
-        
+    <div id="matplotlib"></div>
+
+    <py-script output = "matplotlib" >
+      # Python Code
+           
+      # importing the matplotlib library
+      import matplotlib.pyplot as plt
+      fig, ax = plt.subplots()
+      # x axis
+      x = ["Python", "C++", "JavaScript", "Golang"]
+      # y axis
+      y = [10, 5, 9, 7]
+      plt.plot(x, y, marker='o', linestyle='-', color='b')
+      # Naming the x-label
+      plt.xlabel('Language')
+      # Naming the y-label
+      plt.ylabel('Score')
+      # Naming the title of the plot
+      plt.title('Language vs Score')
+      display(fig)
     </py-script>
 
 
