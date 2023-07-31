@@ -1,7 +1,31 @@
-import pandas as pd
+
 import matplotlib.pyplot as plt
-import numpy as np
+
 
 class Display:
-    def __init__(self,labels):
-        self.lines = labels
+    def __init__(self,stock):
+        self.stock = stock
+
+    def __init__(self, stock, strategy):
+        self.stock = stock
+        self.strategy = strategy
+
+    def generateGraph(self):
+
+        xpoints = self.stock.getDate()
+        ypoints = self.stock.getClose()
+
+        plt.plot(xpoints,ypoints, label = self.stock.getName())
+        plt.legend(loc='upper right')
+        #not required but included to ensure formatting.
+        plt.gcf().autofmt_xdate()
+
+
+        """ code below uncomment if x-axis to show only years
+        """
+        # date_format = mdates.DateFormatter('%Y')
+        # plt.gca().xaxis.set_major_formatter(date_format)
+        plt.xlabel('Date')
+        plt.ylabel('Close USD')
+        plt.title(self.stock.getName())
+        plt.show()
