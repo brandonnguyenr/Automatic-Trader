@@ -6,10 +6,6 @@ class Display:
     def __init__(self,stock):
         self.stock = stock
 
-    def __init__(self, stock, strategy):
-        self.stock = stock
-        self.strategy = strategy
-
     def generateGraph(self):
 
         xpoints = self.stock.getDate()
