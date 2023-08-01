@@ -1,6 +1,5 @@
 import DownloadData as dd
 import Display as display
-
 from movingAverageCrosssover import mva
 from bollingerBandBounce import bollingerBB
 
