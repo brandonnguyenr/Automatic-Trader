@@ -37,7 +37,7 @@ def main():
 
         elif user == "2":
             while True:
-                user = input("1. Bollinger Band Bounce\n2. Moving Average Crossover\nR. Return Choice: ")
+                user = input("1. Bollinger Band Bounce\n2. Moving Average Crossover\nR. Return \nChoice: ")
                 if user == "1":
                     mva()
                 elif user == "2":
