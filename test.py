@@ -1,6 +1,5 @@
 import unittest
 import DownloadData as dd
-import os
 
 class TestSum(unittest.TestCase):
     

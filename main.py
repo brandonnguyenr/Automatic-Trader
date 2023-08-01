@@ -1,3 +1,11 @@
+""" 
+Program name: "FN Trader"
+
+Authors: Kevin Nguyen, Brandon Nguyen
+
+TODOs: need to refactor code 
+"""
+
 import DownloadData as dd
 import Display as display
 from movingAverageCrosssover import mva
@@ -9,10 +17,10 @@ def main():
 
     while True:
         print("What would you like to do?")
-        user = input("1.View historical stock graph\n2.Backtest trading strategies \nQ.Quit\nChoice: ")
+        user = input("1. View historical stock graph\n2. Backtest trading strategies \nQ. Quit\nChoice: ")
         if user == "1":
             while True:
-                user = input("Which graph would you like to view?\n1.FNGD\n2.FNGU\nR.Return\nChoice:")
+                user = input("Which graph would you like to view?\n1. FNGD\n2. FNGU\nR. Return\nChoice:")
                 if user == "1":
                     stock = dd.DownloadData('FNGD','07252020','07252023')
                     d = display.Display(stock)
