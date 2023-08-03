@@ -26,6 +26,38 @@ def calculateDaysBefore(date,daysBefore):
 
     except ValueError:
         return "Invalid date format. Please use MMDDYYYY."
+    
+def inputETF():
+    while True:
+        result = input("Enter ETF (FNGD/FNGU): ")
+        if result.isalpha():
+            result = result.upper()
+        else:
+            print("Invalid! Try again")
+
+        if result == "FNGD" or result == "FNGU":
+            return result
+        else:
+            print("Invalid! Try again")
+
+def validDate(date):
+    try:
+        from datetime import datetime
+        datetime.strptime(date, '%m%d%Y')
+        return True
+    except ValueError:
+        return False
+    
+def inputDate(message):
+    while True:
+        result = input(message)
+        if result.isnumeric() == False:
+            print("Invalid! Try again")
+            continue
+        if result.isnumeric() and validDate(result):
+            return result
+        else:
+            print("Invalid! Try again")
 
 def main():
     print("*****Welcome to FN Trader*****")
@@ -37,14 +69,14 @@ def main():
             while True:
                 user = input("Which graph would you like to view?\n1. FNGD\n2. FNGU\nR. Return\nChoice: ")
                 if user == "1":
-                    date1 = input("Enter start date (MMDDYYYY): ")
-                    date2 = input("Enter end date (MMDDYYYY): ")
+                    date1 = inputDate("Enter start date (MMDDYYYY): ")
+                    date2 = inputDate("Enter end date (MMDDYYYY): ")
                     stock = dd('FNGD', date1, date2)
                     d = display(stock)
                     d.generateHistoricalGraph()
                 elif user == "2":
-                    date1 = input("Enter start date (MMDDYYYY): ")
-                    date2 = input("Enter end date (MMDDYYYY): ")
+                    date1 = inputDate("Enter start date (MMDDYYYY): ")
+                    date2 = inputDate("Enter end date (MMDDYYYY): ")
                     stock = dd('FNGU', date1, date2)
                     d = display(stock)
                     d.generateHistoricalGraph()
@@ -58,9 +90,9 @@ def main():
             while True:
                 user = input("1. Moving Average Crossover\n2. Bollinger Band Bounce\nR. Return\nChoice: ")
                 if user == "1":
-                    etf = input("Enter ETF (FNGD/FNGU): ")
-                    date1 = input("Enter start date (MMDDYYYY): ")
-                    date2 = input("Enter end date (MMDDYYYY): ")
+                    etf = inputETF()
+                    date1 = inputDate("Enter start date (MMDDYYYY): ")
+                    date2 = inputDate("Enter end date (MMDDYYYY): ")
                     fast_window = 7 
                     slow_window = 30  
                     date1 = calculateDaysBefore(date=date1,daysBefore=slow_window)
@@ -69,9 +101,9 @@ def main():
                     test.testMovingAverageCrossover(slow_window=slow_window,fast_window=fast_window)
 
                 elif user == "2":
-                    etf = input("Enter ETF (FNGD/FNGU): ")
-                    date1 = input("Enter start date (MMDDYYYY): ")
-                    date2 = input("Enter end date (MMDDYYYY): ")
+                    inputETF()
+                    date1 = inputDate("Enter start date (MMDDYYYY): ")
+                    date2 = inputDate("Enter end date (MMDDYYY): ")
                     window = 15
                     date1 = calculateDaysBefore(date=date1,daysBefore=window)
                     stock = dd(etf,date1,date2)

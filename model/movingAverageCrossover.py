@@ -1,6 +1,15 @@
 
 class MovingAverageCrossover:
     def __init__(self,stock,date1,date2,slow,fast):
+        # Class for Moving Average Crossover
+
+        # Args:
+        #     stock (str): selected ETF using the DownloadData object
+        #     date1 (str): first date range
+        #     date2 (str): second date range
+        #     slow (str): slow moving average line
+        #     fast (str): fast moving average line
+       
         self.date1 = date1
         self.date2 = date2
         self.stock = stock
@@ -9,17 +18,22 @@ class MovingAverageCrossover:
         self.slow = slow
     
     def calculations(self):
+        #Performs calculations and is stored in self.df, does not need to return anything 
         self.df['Fast_MA'] = self.df['Close'].rolling(window=self.fast, min_periods=1).mean()
         self.df['Slow_MA'] = self.df['Close'].rolling(window=self.slow, min_periods=1).mean()
-
         self.df.loc[self.df['Fast_MA'] > self.df['Slow_MA'], 'Signal'] = 1
         self.df.loc[self.df['Fast_MA'] < self.df['Slow_MA'], 'Signal'] = -1
         return
     
     def getData(self):
+        #Used to get the dataframe data which will be used for the graph
+        #Returns:
+        #pandas: returns a pandas dataframe object
         return self.df
     
     def displaySignals(self):
+        #displays: Buy/Sell signals, capital gains/loss, percentage gained/loss
+        
         initial_capital = 100000
         capital = initial_capital
         position = 0  

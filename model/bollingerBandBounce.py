@@ -2,6 +2,14 @@
 class BollingerBandBounce:
 
     def __init__(self,stock,date1,date2,window):
+        # Class for Bollinger Band Bounce
+
+        # Args:
+        #     tock (str): selected ETF using the DownloadData object
+        #     date1 (str): first date range
+        #     date2 (str): second date range
+        #     window (str): window date range
+        
         self.date1 = date1
         self.date2 = date2
         self.stock = stock
@@ -9,18 +17,24 @@ class BollingerBandBounce:
         self.window = window
 
     def calculations(self):
+        #Performs backtesting calculations
         self.df['MA'] = self.df['Close'].rolling(window=self.window, min_periods=1).mean()
         self.df['std'] = self.df['Close'].rolling(window=self.window, min_periods=1).std()
-
         self.df['Upper'] = self.df['MA'] + 2 * self.df['std']
         self.df['Lower'] = self.df['MA'] - 2 * self.df['std']
-
         return
     
     def getData(self):
+        # Used to get the dataframe data which will be used for the graph
+
+        # Returns:
+        #     pandas: returns a pandas dataframe object
+        
         return self.df
     
     def displaySignals(self):
+        # displays: Buy/Sell signals, capital gains/loss, percentage gained/loss
+        
         initial_capital = 100000
         capital = initial_capital
         position = 0

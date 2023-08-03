@@ -6,7 +6,6 @@ class Display:
         self.stock = stock
 
     def generateHistoricalGraph(self):
-
         xpoints = self.stock.getDate()
         ypoints = self.stock.getClose()
 
@@ -16,8 +15,7 @@ class Display:
         plt.gcf().autofmt_xdate()
 
 
-        """ code below uncomment if x-axis to show only years
-        """
+        #code below uncomment if x-axis to show only years
         # date_format = mdates.DateFormatter('%Y')
         # plt.gca().xaxis.set_major_formatter(date_format)
         plt.xlabel('Date')
