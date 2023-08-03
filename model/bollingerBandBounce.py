@@ -1,3 +1,4 @@
+
 class BollingerBandBounce:
 
     def __init__(self,stock,date1,date2,window):
