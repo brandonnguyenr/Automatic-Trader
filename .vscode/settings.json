@@ -1,5 +1,6 @@
 {
     "python.analysis.extraPaths": [
+        "/home/kevin/.local/lib/python3.10/site-packages",
         "./model",
         "./view"
     ]

@@ -23,8 +23,8 @@ class Display:
         plt.title(self.stock.getName())
         plt.show()
 
-    def generateBollingerBBGraph(self,df):
-        window = 15
+    def generateBollingerBBGraph(self,df,window):
+        window = window
         xpoints = self.stock.getDate()
         ypoints = self.stock.getClose()
 

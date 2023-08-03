@@ -1,5 +1,7 @@
+from Backtest import Backtest
+import Display as display
 
-class BollingerBandBounce:
+class BollingerBandBounce(Backtest):
 
     def __init__(self,stock,date1,date2,window):
         # Class for Bollinger Band Bounce
@@ -9,11 +11,8 @@ class BollingerBandBounce:
         #     date1 (str): first date range
         #     date2 (str): second date range
         #     window (str): window date range
-        
-        self.date1 = date1
-        self.date2 = date2
-        self.stock = stock
-        self.df = self.stock.getCSV()
+
+        super().__init__(stock,date1,date2)
         self.window = window
 
     def calculations(self):
@@ -24,19 +23,9 @@ class BollingerBandBounce:
         self.df['Lower'] = self.df['MA'] - 2 * self.df['std']
         return
     
-    def getData(self):
-        # Used to get the dataframe data which will be used for the graph
-
-        # Returns:
-        #     pandas: returns a pandas dataframe object
-        
-        return self.df
     
     def displaySignals(self):
         # displays: Buy/Sell signals, capital gains/loss, percentage gained/loss
-        
-        initial_capital = 100000
-        capital = initial_capital
         position = 0
         buy_price = 0
         buy_date = None
@@ -50,15 +39,15 @@ class BollingerBandBounce:
                 position = 1
                 buy_price = row['Close']
                 buy_date = row['Date']
-                shares = capital / buy_price
-                capital = 0
+                shares = self.capital / buy_price
+                self.capital = 0
                 self.df.loc[index, 'Buy'] = True
                 print(f"Buy: {buy_date} | Price: ${buy_price:.2f}")
             elif row['Close'] > row['Upper'] and position == 1:
                 position = 0
                 sell_price = row['Close']
                 sell_date = row['Date']
-                capital = shares * sell_price
+                self.capital = shares * sell_price
                 buy_price = 0
                 self.df.loc[index, 'Sell'] = True
                 print(f"Sell: {sell_date} | Price: ${sell_price:.2f}")
@@ -66,15 +55,21 @@ class BollingerBandBounce:
         if position == 1:
             position = 0
             sell_price = self.df['Close'].iloc[-1]
-            capital = shares * sell_price
+            self.capital = shares * sell_price
             buy_price = 0
             self.df.loc[self.df.index[-1], 'Sell'] = True
             print(f"Sell: {self.df['Date'].iloc[-1]} | Price: ${sell_price:.2f}")
 
-        final_profit_loss = capital - initial_capital
-        percent_profit_margin = (final_profit_loss / initial_capital) * 100
+        self.finalProfitLoss = self.capital - self.initialCapital
+        self.profitMarginPercentage = (self.finalProfitLoss / self.initialCapital) * 100
 
-        print(f"\nFinal Capital: ${capital:.2f}")
-        print(f"Profit/Loss: ${final_profit_loss:.2f}")
-        print(f"Percent Profit Margin: {percent_profit_margin:.2f}%\n")
+        print(f"\nFinal Capital: ${self.capital:.2f}")
+        print(f"Profit/Loss: ${self.finalProfitLoss:.2f}")
+        print(f"Percent Profit Margin: {self.profitMarginPercentage:.2f}%\n")
     
+    def testStrategy(self):
+        self.calculations()
+        self.displaySignals()
+        d = display.Display(self.stock)
+        d.generateBollingerBBGraph(self.getData(),window=self.window)
+        return

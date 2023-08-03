@@ -7,8 +7,8 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'v
 
 from DownloadData import DownloadData as dd
 from Display import Display as display
-from Backtest import Backtest as bt
-
+from movingAverageCrossover import MovingAverageCrossover as mva
+from bollingerBandBounce import BollingerBandBounce as bb
 def calculateDaysBefore(date,daysBefore):
     try:
         # Parse the input date string into a datetime object
@@ -30,12 +30,8 @@ def calculateDaysBefore(date,daysBefore):
 def inputETF():
     while True:
         result = input("Enter ETF (FNGD/FNGU): ")
-        if result.isalpha():
+        if result.isalpha() and result == "FNGD" or result == "FNGU":
             result = result.upper()
-        else:
-            print("Invalid! Try again")
-
-        if result == "FNGD" or result == "FNGU":
             return result
         else:
             print("Invalid! Try again")
@@ -59,24 +55,73 @@ def inputDate(message):
         else:
             print("Invalid! Try again")
 
-def main():
-    print("*****Welcome to FN Trader*****")
+def validRange(date1,date2):
+    dateFormat = "%m%d%Y"
+    dt1 = datetime.strptime(date1,dateFormat)
+    dt2 = datetime.strptime(date2,dateFormat)
 
+    if dt1 > dt2:
+        return False
+    else:
+        return True
+
+def backtestInterface():
     while True:
-        print("What would you like to do?")
-        user = input("1. View historical stock graph\n2. Backtest trading strategies\nQ. Quit\nChoice: ")
+        user = input("1. Moving Average Crossover\n2. Bollinger Band Bounce\nR. Return\nChoice: ")
         if user == "1":
-            while True:
+            etf = inputETF()
+            date1 = inputDate("Enter start date (MMDDYYYY): ")
+            date2 = inputDate("Enter end date (MMDDYYYY): ")
+            if validRange(date1,date2) == False:
+                print("Invalid range! Try again\n")
+                continue
+            fast_window = 7 
+            slow_window = 30  
+            date1 = calculateDaysBefore(date=date1,daysBefore=slow_window)
+            stock = dd(etf,date1,date2)
+            # test = bt(stock,date1,date2)
+            # test.testMovingAverageCrossover(slow_window=slow_window,fast_window=fast_window)
+            test = mva(stock,date1,date2,slow=slow_window,fast=fast_window)
+            test.testStrategy()
+        elif user == "2":
+            etf = inputETF()
+            date1 = inputDate("Enter start date (MMDDYYYY): ")
+            date2 = inputDate("Enter end date (MMDDYYY): ")
+            # if validRange(date1,date2) == False:
+            #     print("Invalid range! Try again\n")
+            #     continue
+            window = 15
+            date1 = calculateDaysBefore(date=date1,daysBefore=window)
+            stock = dd(etf,date1,date2)
+            # test = bt(stock,date1,date2)
+            # test.testBollingerBandBounce(window=window)
+            test = bb(stock,date1,date2,window=window)
+            test.testStrategy()
+        elif user.lower() == "r":
+            break
+
+        else:
+            print("Invalid try again")
+
+def historicalGraphInterface():
+    while True:
                 user = input("Which graph would you like to view?\n1. FNGD\n2. FNGU\nR. Return\nChoice: ")
                 if user == "1":
                     date1 = inputDate("Enter start date (MMDDYYYY): ")
                     date2 = inputDate("Enter end date (MMDDYYYY): ")
+                    if validRange(date1,date2) == False:
+                        print("Invalid range! Try again\n")
+                        continue
                     stock = dd('FNGD', date1, date2)
                     d = display(stock)
                     d.generateHistoricalGraph()
                 elif user == "2":
                     date1 = inputDate("Enter start date (MMDDYYYY): ")
                     date2 = inputDate("Enter end date (MMDDYYYY): ")
+                    if validRange(date1,date2) == False:
+                        print("Invalid range! Try again\n")
+                        continue
+                    
                     stock = dd('FNGU', date1, date2)
                     d = display(stock)
                     d.generateHistoricalGraph()
@@ -84,41 +129,19 @@ def main():
                     break
                 else:
                     print("Invalid try again")
+                    
+def main():
+    print("*****Welcome to FN Trader*****")
 
+    while True:
+        print("What would you like to do?")
+        user = input("1. View historical stock graph\n2. Backtest trading strategies\nQ. Quit\nChoice: ")
+        if user == "1":
+            historicalGraphInterface()
         elif user == "2":
-
-            while True:
-                user = input("1. Moving Average Crossover\n2. Bollinger Band Bounce\nR. Return\nChoice: ")
-                if user == "1":
-                    etf = inputETF()
-                    date1 = inputDate("Enter start date (MMDDYYYY): ")
-                    date2 = inputDate("Enter end date (MMDDYYYY): ")
-                    fast_window = 7 
-                    slow_window = 30  
-                    date1 = calculateDaysBefore(date=date1,daysBefore=slow_window)
-                    stock = dd(etf,date1,date2)
-                    test = bt(stock,date1,date2)
-                    test.testMovingAverageCrossover(slow_window=slow_window,fast_window=fast_window)
-
-                elif user == "2":
-                    inputETF()
-                    date1 = inputDate("Enter start date (MMDDYYYY): ")
-                    date2 = inputDate("Enter end date (MMDDYYY): ")
-                    window = 15
-                    date1 = calculateDaysBefore(date=date1,daysBefore=window)
-                    stock = dd(etf,date1,date2)
-                    test = bt(stock,date1,date2)
-                    test.testBollingerBandBounce(window=window)
-
-                elif user.lower() == "r":
-                    break
-
-                else:
-                    print("Invalid try again")
-
+            backtestInterface()
         elif user.lower() == "q":
             quit()
-
         else:
             print("Invalid input, try again!")
 
