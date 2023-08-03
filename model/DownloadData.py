@@ -24,7 +24,8 @@ class DownloadData:
         self.endDay = int(dateEnd[2:4])
         self.endYear = int(dateEnd[-4:])
 
-        self._data = self._getData()
+        self._csvdata, self._data = self._getData()
+
         
 
     def _getData(self):
@@ -46,7 +47,7 @@ class DownloadData:
         with open(f"{self._symbol}.json", "w") as file:
             json.dump(dict, file)
 
-        return dict
+        return df,dict
 
     def getClose(self):
         """Purpose of this is to be used in Display.py which will be the y-axis coordinates.
@@ -71,15 +72,10 @@ class DownloadData:
     def getName(self):
         return self._symbol
     
-    def _displayCSV(self):
-        """ Just used to print out the CSV downloaded. Not intended to be used by the app.
+    def getCSV(self):
+        """ to get the CSV dataframe for pandas functions
+
+        Returns:
+            pandas object dataframe
         """
-        ticker = self._symbol
-        period1 = int(time.mktime(datetime.datetime(self.startYear, self.startMonth, self.startDay, 23, 59).timetuple()))
-        period2 = int(time.mktime(datetime.datetime(self.endYear, self.endMonth, self.endDay, 23, 59).timetuple()))
-        interval = '1d' 
-
-        API_endpoint = f'https://query1.finance.yahoo.com/v7/finance/download/{ticker}?period1={period1}&period2={period2}&interval={interval}&events=history&includeAdjustedClose=true'
-
-        df = pd.read_csv(API_endpoint)
-        print(df['Date'])
+        return self._csvdata

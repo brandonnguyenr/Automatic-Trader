@@ -1,1 +1,1 @@
-__all__ = ['movingAverageCrossover', 'bollingerBandBounce', 'DownloadData']
+__all__ = ['movingAverageCrossover', 'bollingerBandBounce', 'DownloadData', 'Backtest']
