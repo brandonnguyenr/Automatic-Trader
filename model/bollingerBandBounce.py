@@ -7,7 +7,7 @@ class BollingerBandBounce(Backtest):
         # Class for Bollinger Band Bounce
 
         # Args:
-        #     tock (str): selected ETF using the DownloadData object
+        #     stock (DownloadData): selected ETF using the DownloadData object
         #     date1 (str): first date range
         #     date2 (str): second date range
         #     window (str): window date range

@@ -5,7 +5,7 @@ class MovingAverageCrossover(Backtest):
     def __init__(self,stock,date1,date2,slow,fast):
         # Class for Moving Average Crossover
         # Args:
-        #     stock (str): selected ETF using the DownloadData object
+        #     stock (DownloadData): selected ETF using the DownloadData object
         #     date1 (str): first date range
         #     date2 (str): second date range
         #     slow (str): slow moving average line

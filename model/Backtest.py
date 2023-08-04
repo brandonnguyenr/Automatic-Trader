@@ -13,12 +13,12 @@ class Backtest:
     
     def getData(self):
         # Used to get the dataframe data which will be used for the graph
-
         # Returns:
         #     pandas: returns a pandas dataframe object
         return self.df
 
     def getCapital(self):
+        
         return self.capital
     
     def getProfitLoss(self):
