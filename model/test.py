@@ -7,7 +7,7 @@ import pandas as pd
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'model')))
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'view')))
 
-from DownloadData import DownloadData as dd
+from DownloadData import DownloadDataAdaptee as dd
 from bollingerBandBounce import BollingerBandBounce as bb
 
 class TestSum(unittest.TestCase):

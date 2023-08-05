@@ -1,10 +1,9 @@
-from Backtest import Backtest
-import Display as display
+from Backtest import BacktestStrategy
+from Display import DisplayAdapter as display
 
-class BollingerBandBounce(Backtest):
-
+class BollingerBandBounce(BacktestStrategy):
     def __init__(self,stock,date1,date2,window):
-        # Class for Bollinger Band Bounce
+        # Class for Bollinger Band Bounce serves as an adaptee for the Display class.
 
         # Args:
         #     stock (DownloadData): selected ETF using the DownloadData object
@@ -70,6 +69,6 @@ class BollingerBandBounce(Backtest):
     def testStrategy(self):
         self.calculations()
         self.displaySignals()
-        d = display.Display(self.stock)
+        d = display(self.stock)
         d.generateBollingerBBGraph(self.getData(),window=self.window)
         return

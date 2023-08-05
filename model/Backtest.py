@@ -1,5 +1,5 @@
-
-class Backtest:
+class BacktestStrategy:
+    #For strategy design make the MVC and the BBB get called by this class
     def __init__(self,stock,date1,date2):
         #Class for backtesting and calling on the trading strategy classes
         self.date1 = date1
@@ -18,7 +18,6 @@ class Backtest:
         return self.df
 
     def getCapital(self):
-        
         return self.capital
     
     def getProfitLoss(self):
@@ -26,3 +25,7 @@ class Backtest:
     
     def getprofitMargin(self):
         return self.profitMarginPercentage
+    
+    def Strategy(self,method):
+        #Chooses the strategy based on the method passed in.
+        method.testStrategy()
