@@ -80,3 +80,33 @@ class DownloadDataAdaptee:
         #     pandas object dataframe
         
         return self._csvdata
+
+#AverageClosingPriceDecorator is a Decorator to the DownloadDataAdaptee class
+#   It extends the functionality of DownloadDataAdaptee by using forward calls
+#   to the original methods fo the adaptee
+#   The extended functionality is calculating the average closing price of a listed time period
+class AverageClosingPriceDecorator:
+    def __init__(self, adaptee):
+        self._adaptee = adaptee
+
+    def calculate_average_closing_price(self):
+        # Calculate the average closing price
+        closing_prices = self._adaptee.getClose()
+        average_closing_price = np.mean(closing_prices)
+        return average_closing_price
+
+    def getClose(self):
+        # Call the original getClose method from the adaptee
+        return self._adaptee.getClose()
+
+    def getDate(self):
+        # Call the original getDate method from the adaptee
+        return self._adaptee.getDate()
+
+    def getName(self):
+        # Call the original getName method from the adaptee
+        return self._adaptee.getName()
+
+    def getCSV(self):
+        # Call the original getCSV method from the adaptee
+        return self._adaptee.getCSV()

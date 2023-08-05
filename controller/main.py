@@ -5,7 +5,8 @@ from datetime import datetime, timedelta
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'model')))
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'view')))
 
-from DownloadData import DownloadData as dd
+from DownloadData import DownloadDataAdaptee as dd
+from DownloadData import AverageClosingPriceDecorator
 from Display import Display as display
 from movingAverageCrossover import MovingAverageCrossover as mva
 from bollingerBandBounce import BollingerBandBounce as bb
@@ -146,7 +147,25 @@ def historicalGraphInterface():
                     break
                 else:
                     print("Invalid try again")
-                    
+
+#To output to main to see the functionality of the decorator, AverageClosingPriceDecorator
+#   It will be outputted as you quit the program.
+def averageClosingPrices():
+    # Create an instance of DownloadDataAdaptee
+    data_adaptee = dd('FNGU', '07012023', '08012023')
+
+    # Wrap the adaptee with the AverageClosingPriceDecorator
+    decorated_data = AverageClosingPriceDecorator(data_adaptee)
+
+    # Access the original methods of DownloadDataAdaptee
+    name = decorated_data.getName()
+
+    # Access average closing price
+    average_closing_price = decorated_data.calculate_average_closing_price()
+
+    print(f"ETF Symbol: {name}")
+    print(f"Average Closing Price: {average_closing_price:.2f}")
+            
 def main():
     print("*****Welcome to FN Trader*****")
 
@@ -158,6 +177,8 @@ def main():
         elif user == "2":
             backtestInterface()
         elif user.lower() == "q":
+            print("\nThank you!\nThe Average Closing Prices from last month will be displayed")
+            averageClosingPrices()
             quit()
         else:
             print("Invalid input, try again!")

@@ -1,5 +1,5 @@
 from Backtest import BacktestStrategy
-from Display import DisplayAdapter as display
+from Display import Display as display
 
 class BollingerBandBounce(BacktestStrategy):
     def __init__(self,stock,date1,date2,window):

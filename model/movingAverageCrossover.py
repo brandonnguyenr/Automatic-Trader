@@ -1,5 +1,5 @@
 from Backtest import BacktestStrategy
-from Display import DisplayAdapter as display
+from Display import Display as display
 
 class MovingAverageCrossover(BacktestStrategy):
     def __init__(self,stock,date1,date2,slow,fast):
@@ -72,4 +72,3 @@ class MovingAverageCrossover(BacktestStrategy):
         self.displaySignals()
         d = display(self.stock)
         d.generateMovingAverageCrossoverGraph(self.getData(),self.slow,self.fast)
-        return
